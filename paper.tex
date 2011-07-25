@@ -5,6 +5,7 @@
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage{graphicx}
+\usepackage{amsmath}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
 %%% Examples of Article customizations
@@ -70,10 +71,15 @@ TD learning in this domain simplifies to learning $Q(a)$  since there is only on
 Experiments were run using 10-, 100-, and 1000-armed bandits, with qualitatively similar results.  Results shown below are for the 100-armed bandit.
 
 \subsection{Parallel Implementation}
-In the parallel implementation for this problem the agents share their information periodically.  The processing is split between periods of learning where each agent operates independently and a sharing period where the information is consolidated from all agents and then shared.  The actual learning and sharing take place on the GPU while the CPU controls the overall process.  The high level division of activities between CPU and GPU is shown in Figure 4.  This diagram shows the basic paradigm I used for the parallel implementation of learning algorithms using the GPU.  It will be updated as the need arises as domains become more complex.
+In the parallel implementation for this problem the agents share their information periodically.  The processing is split between periods of learning where each agent operates independently and a sharing period where the information is consolidated from all agents and then shared.  The actual learning and sharing take place on the GPU while the CPU controls the overall process.  The high level division of activities between CPU and GPU is shown in Figure~\ref{fig:seq_diag}.  This diagram shows the basic paradigm I used for the parallel implementation of learning algorithms using the GPU.  It will be updated as the need arises as domains become more complex.
 
+\begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.8]{fig01}
+\includegraphics[scale=0.3]{fig01a}
+\caption{high-level sequence diagram showing activities on CPU and GPU}
+\label{fig:seq_diag}
+\end{figure}
+
 \begin{flushleft}
 
 Key learning parameters for the multi-agent parallel approach for the  -Armed Bandit are:
@@ -105,10 +111,10 @@ Q_i(j) \gets Q_{total}(j)
 \end{equation}
 
 \begin{equation}
-n_i^{[j]} = n_{total}^{[j]}/\mbox{\it number-of-agents}
+n_i^{[j]} = n_{total}^{[j]}/\mbox{\it number-of-agents} \label{num_pulls}
 \end{equation}
 
-Note that in equation (???) the number of pulls stored by each agent after sharing is their share of the total number of pulls, not the total number of pulls for the entire block.  This gives less weight to the averages stored by the agent and allows those values to change more dramatically after sharing has occurred.  It also means that the sum of the number of pulls across all agents is equal to the actual total number of pulls.  This is useful when re-calculating the total values at future sharing points.  The result is that some agent's will have their average value for the best arm go down due to the random nature of rewards, perhaps causing another arm to become the best for that agent.  This has the ultimately beneficial effect of causing agents to explore other arms with high average values.
+Note that in equation \eqref{num_pulls} the number of pulls stored by each agent after sharing is their share of the total number of pulls, not the total number of pulls for the entire block.  This gives less weight to the averages stored by the agent and allows those values to change more dramatically after sharing has occurred.  It also means that the sum of the number of pulls across all agents is equal to the actual total number of pulls.  This is useful when re-calculating the total values at future sharing points.  The result is that some agent's will have their average value for the best arm go down due to the random nature of rewards, perhaps causing another arm to become the best for that agent.  This has the ultimately beneficial effect of causing agents to explore other arms with high average values.
 
 The next time sharing occurs, the block average is recalculated and quality is improved for all agents.  This gives the agents a periodic burst in learning quality at the point of sharing.  The quality may drop between sharing points as the agent’s own values are allowed to vary.  At each sharing point the quality of each agent is restored and actually improves based on the combined information.
 
@@ -133,46 +139,76 @@ The results are broken down into two components to gain a better understanding o
 
 Offsetting the parallel penalty is the speed-up in real time of the parallel implementation.  A fixed number of agent-time steps can run faster if they are executed in parallel, so for a fixed learning period, the parallel approach can execute more agent-time steps than the single agent approach.
 
-The first experiment is for a fixed number of agent-time steps.  Learning is run for the fixed number of agent-time steps and then repeated for 1,024 trials.  Learning quality is calculated as the fraction of the 1,024 trials where the agent correctly identified the bandit with the highest expected payout, which can be determined by inspection.  Measuring learning as a function of agent-time steps gives an understanding of the algorithmic ‘parallel penalty’ from splitting up a fixed number of actions over parallel agents. The results for the 100-armed bandit are shown in Figure ??? and Figure ???.  The two graphs are the same except for the difference in agent group sizes.  Learning quality on the y-axis is measured by the probability of correctly identifying the best arm over 1,024 trials.  The blue line with circles is the result for a single agent running on the CPU and the other lines are for different numbers of parallel agents.
+The first experiment is for a fixed number of agent-time steps.  Learning is run for the fixed number of agent-time steps and then repeated for 1,024 trials.  Learning quality is calculated as the fraction of the 1,024 trials where the agent correctly identified the bandit with the highest expected payout, which can be determined by inspection.  Measuring learning as a function of agent-time steps gives an understanding of the algorithmic ‘parallel penalty’ from splitting up a fixed number of actions over parallel agents. The results for the 100-armed bandit are shown in Figure~\ref{fig:bandit_steps}.  Learning quality on the y-axis is measured by the probability of correctly identifying the best arm over 1,024 trials.  The blue line with circles is the result for a single agent running on the CPU and the other lines are for different numbers of parallel agents.
 
 \end{flushleft}
+\begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.8]{fig02}
-\includegraphics[scale=0.8]{fig03}
-\begin{flushleft}
+\includegraphics[scale=0.5]{fig02a}
+\caption{Learning quality by agent-time steps}
+\label{fig:bandit_steps}
+\end{figure}
 
-The results are interesting as there is no clear penalty for the parallel approach, except for agent groups of 4 or 16.  When parallel agents numbered 64 or more the parallel implementation actually produced higher quality using a fixed number of agent-time steps.  The difference appears to diminish for extremely large groups as the learning quality drops for 8,192 agents.  The multi-agent advantage is likely coming from more effective exploration due to the lack of complete information.  Each agent in the group makes an independent choice of best arm and the next action to take based on limited information, or perhaps some new unique information it has uncovered but not yet shared, leading to beneficial exploration of the state space.
-
-The results are interesting as there is no clear penalty for the parallel approach, except for agent groups of 4 or 16.  When parallel agents numbered 64 or more the parallel implementation actually produced higher quality using a fixed number of agent-time steps.  The difference appears to diminish for extremely large groups as the learning quality drops for 8,192 agents.  The multi-agent advantage is likely coming from more effective exploration due to the lack of complete information.  Each agent in the group makes an independent choice of best arm and the next action to take based on limited information, or perhaps some new unique information it has uncovered but not yet shared, leading to beneficial exploration of the state space.
-
-The next step is to measure learning quality as a function of learning time.  Learning time is the real elapsed time the agent spends interacting with the environment, updating its internal state, and sharing information in the case of parallel agents.  The timing values are for a single learning trial run on the CPU for a single agent, and on the GPU for parallel agents. For parallel runs, the number of time-steps is determined so that the parallel agents took at least as much time as the single agent run for 262,144 time steps.  To get credible quality measurements the results were averaged over 1024 trials for both single agent and parallel agent runs.  Learning quality as a function of learning time is shown in Figure 7.  For the two smallest numbers of parallel agents, groups of 4 or 16, the parallel implementation on the GPU did poorly compared to the single agent CPU run.  Since the time values were for a single trial, there were only 4 or 16 threads running concurrently on the GPU.  Given the complexity of the calculations and the need to frequently synchronize threads to share information, the poor results are not surprising.  For the larger numbers of parallel agents, with hundreds or thousands of threads, the parallel GPU results clearly surpass the single agent CPU results when learning quality was measured as a function of learning time.
-
-\end{flushleft}
-\center
-\includegraphics[scale=0.8]{fig04}
-\begin{flushleft}
-
-The last chart, Figure ???, summarizes the results of the parallel implementation of N-Armed Bandit on the GPU.  The blue bars are the learning quality for 131,072 agent-time steps.  Comparing the multi-agent blue bars to the CPU blue bar shows the improvement due to improved algorithm performance for the fixed number of agent-time steps.  The green bars are the learning quality after 37.7ms, which is the time it took to run 131,072 time steps for a single agent on the CPU.  It can be seen that with 256 or more agents, the advantage of the parallel implementation on the GPU over the single agent CPU run increased when measured as a function of time.  The drop in the fixed agent-time steps bar (blue bar) for 8,192 agents compared smaller agent groups shows that the algorithmic advantage for parallel groups does not continue to increase as group size increases.  This is also seen in Figure ???.
-
-\end{flushleft}
-\center
-\includegraphics[scale=0.8]{fig06}
 \begin{flushleft}
 
 
-In summary, the massively parallel approach to the N-armed Bandit problem shows the surprising result that there is no parallel penalty for agent groups of size 64 or larger (Figure ??? and Figure ???).  Splitting a fixed number of agent-state interactions across parallel agents can actually improve the learning quality through more effective exploration.  The parallel results improved further when learning quality is measured as a function of learning time (Figure ???) as the raw speed improvement provided by the GPU allow more agent-time steps to be executed with greater speed in parallel.
+The results are interesting as there is no clear penalty for the parallel approach, except for agent groups of 16.  When parallel agents numbered 256 or more the parallel implementation actually produced higher quality using a fixed number of agent-time steps.  The difference appears to diminish for extremely large groups as the learning quality drops for 8,192 agents.  The multi-agent advantage is likely coming from more effective exploration due to the lack of complete information.  Each agent in the group makes an independent choice of best arm and the next action to take based on limited information, or perhaps some new unique information it has uncovered but not yet shared, leading to beneficial exploration of the state space.
+
+The next step is to measure learning quality as a function of learning time.  Learning time is the real elapsed time the agent spends interacting with the environment, updating its internal state, and sharing information in the case of parallel agents.  The timing values are for a single learning trial run on the CPU for a single agent, and on the GPU for parallel agents. For parallel runs, the number of time-steps is determined so that the parallel agents took at least as much time as the single agent run for 131,072 time steps.  To get credible quality measurements the results were averaged over 1024 trials for both single agent and parallel agent runs.  Learning quality as a function of learning time is shown in Figure~\ref{fig:bandit_time}.  For the smallest numbers of parallel agents, groups of 16, the parallel implementation on the GPU did poorly compared to the single agent CPU run.  Since the time values were for a single trial, there were only 4 or 16 threads running concurrently on the GPU.  Given the complexity of the calculations and the need to frequently synchronize threads to share information, the poor results are not surprising.  For the larger numbers of parallel agents, with hundreds or thousands of threads, the parallel GPU results clearly surpass the single agent CPU results when learning quality was measured as a function of learning time.
+
+%\end{flushleft}
+%\center
+%\includegraphics[scale=0.8]{fig04}
+%\begin{flushleft}
+
+\end{flushleft}
+
+\begin{figure}[hbtp]
+\center
+\includegraphics[scale=0.5]{fig03a}
+\caption{Learning quality as a function of learning time}
+\label{fig:bandit_time}
+\end{figure}
+
+\begin{flushleft}
+
+The last chart, Figure~\ref{fig:bandit_summary}, summarizes the results of the parallel implementation of N-Armed Bandit on the GPU.  The blue bars are the learning quality for 131,072 agent-time steps.  Comparing the multi-agent blue bars to the CPU blue bar shows the improvement due to improved algorithm performance for the fixed number of agent-time steps.  The green bars are the learning quality after 37.7ms, which is the time it took to run 131,072 time steps for a single agent on the CPU.  It can be seen that with 256 or more agents, the advantage of the parallel implementation on the GPU over the single agent CPU run increased when measured as a function of time.  The drop in the fixed agent-time steps bar (blue bar) for 8,192 agents compared smaller agent groups shows that the algorithmic advantage for parallel groups does not continue to increase as group size increases.  This is also seen in Figure~\ref{fig:bandit_time}.
+
+%\end{flushleft}
+%\center
+%\includegraphics[scale=0.8]{fig06}
+%\begin{flushleft}
+
+
+\end{flushleft}
+
+\begin{figure}[hbtp]
+\center
+\includegraphics[scale=0.5]{fig05}
+\caption{Summary of multi-agent GPU learning compared to single agent, CPU}
+\label{fig:bandit_summary}
+\end{figure}
+
+\begin{flushleft}
+
+In summary, the massively parallel approach to the N-armed Bandit problem shows the surprising result that there is no parallel penalty for agent groups of size 64 or larger (Figure~\ref{fig:bandit_steps}).  Splitting a fixed number of agent-state interactions across parallel agents can actually improve the learning quality through more effective exploration.  The parallel results improved further when learning quality is measured as a function of learning time (Figure~\ref{fig:bandit_time}) as the raw speed improvement provided by the GPU allow more agent-time steps to be executed with greater speed in parallel.
 
 
 
 \section{Simple, Continuous Domains}
 \subsection{Overview of the problem}
-The Pole Balancing problem, sometimes referred to as the inverted pendulum, is another canonical problem of reinforcement learning.  The paper “The Pole Balancing Problem, A Benchmark Control Theory Problem” (Brownlee, 2005) contains a detailed description of the standard definition of the problem that was used in this project.  In the Pole Balancing problem, the state consists of a cart on a track with a vertical pole attached to a hinge on the cart.  The goal is to keep the pole balanced within a certain tolerance of the vertical position and to prevent the car from going off either end of the track by applying a fixed force to either end of the car (see Figure ???).  The state of the world consists of four continuous values: the position and velocity of the cart and the angle and angular velocity of the pole.  The agent has no knowledge of how the world works and chooses between two actions: apply the fixed force to the left or to the right.
+The Pole Balancing problem, sometimes referred to as the inverted pendulum, is another canonical problem of reinforcement learning.  The paper “The Pole Balancing Problem, A Benchmark Control Theory Problem” (Brownlee, 2005) contains a detailed description of the standard definition of the problem that was used in this project.  In the Pole Balancing problem, the state consists of a cart on a track with a vertical pole attached to a hinge on the cart.  The goal is to keep the pole balanced within a certain tolerance of the vertical position and to prevent the car from going off either end of the track by applying a fixed force to either end of the car (see Figure~\ref{fig:pole_diag}).  The state of the world consists of four continuous values: the position and velocity of the cart and the angle and angular velocity of the pole.  The agent has no knowledge of how the world works and chooses between two actions: apply the fixed force to the left or to the right.
 
 \end{flushleft}
-\center
-\includegraphics[scale=0.8]{fig05}
-\begin{flushleft}
 
+\begin{figure}[hbtp]
+\center
+\includegraphics[scale=0.5]{fig06}
+\caption{Pole balancing problem}
+\label{fig:pole_diag}
+\end{figure}
+
+\begin{flushleft}
 
 A reward is introduced to make this a reinforcement learning problem.  The reward is 0 for every time step that the car is on the track and the pole is in the allowable vertical range.  The agent receives a large negative reward if there is a failure due to the car running off the track, or the pole falling beyond the vertical tolerance.  Each trial begins with the state variables being initialized with random values.
 
@@ -224,33 +260,60 @@ Agent quality was measured for this problem as the average time to failure over 
 
 The first set of results measure the quality of learning as a function of agent-time steps.  This measurement shows the algorithmic penalty, if any, of the parallel approach.  The algorithmic penalty is the reduction in learning quality due to the fact that agents operating in parallel have less information available to them, after a given number of agent-time steps, than a single agent.  The single agent will have complete information about all actions, rewards, and state transitions, while the parallel agent must wait until a sharing point to gain any information from the experiences of the other agents.
 
-The first graph, Figure ???, shows results by agent-time step for varying numbers of parallel agents and compares them to a single agent.  In these runs, there was no differentiation of parallel agents after sharing.  The jump in quality as agents shared information is clearly visible in the graph, but only the smaller agent groups, up to 256 parallel agents, could exceed the single agent learning quality after 262,144 agent-time steps.  The 4,096 agent group, did have an anomalous drop in learning quality at its second sharing point at 262,144 total agent-time steps.  The cause for this was not investigated and the learning quality quickly recovers when the number of time steps per agent increases, as can be seen in Figure ???.
+The first graph, Figure\ref{fig:pole_steps}, shows results by agent-time step for varying numbers of parallel agents and compares them to a single agent.  In these runs, there was no differentiation of parallel agents after sharing.  The jump in quality as agents shared information is clearly visible in the graph, but only the smaller agent groups, up to 256 parallel agents, could exceed the single agent learning quality after 262,144 agent-time steps.  The 4,096 agent group, did have an anomalous drop in learning quality at its second sharing point at 262,144 total agent-time steps.  The cause for this was not investigated and the learning quality quickly recovers when the number of time steps per agent increases, as can be seen in Figure ???.
 
 \end{flushleft}
-\center
-\includegraphics[scale=0.8]{fig07}
-\begin{flushleft}
 
+\begin{figure}[hbtp]
+\center
+\includegraphics[scale=0.5]{fig07a}
+\caption{Learning quality for Pole Balancing as a function of agent-time steps without agent differentiation.}
+\label{fig:pole_steps}
+\end{figure}
+
+\begin{flushleft}
 
 The frequency of sharing is a learning parameter that is determined separately by agent group size through experimentation.  As agent group size increases, the optimal number of time steps per agent between sharing decreases. 
 
-The next measurements tested learning quality as a function of learning time.  As with the previous problem, learning time is measured based on a single run with the single agent on the CPU or group of parallel agents on the GPU.  The time spent testing the agent is, of course, excluded from the measurement.  The learning quality is then calculated by averaging the learning measurements over 1,024 trials.  The quality of learning with parallel agents is dramatically better than single agent learning for groups of 256 or larger when measured over a learning period of 400ms, as can be seen in Figure ???
+The next measurements tested learning quality as a function of learning time.  As with the previous problem, learning time is measured based on a single run with the single agent on the CPU or group of parallel agents on the GPU.  The time spent testing the agent is, of course, excluded from the measurement.  The learning quality is then calculated by averaging the learning measurements over 1,024 trials.  The quality of learning with parallel agents is dramatically better than single agent learning for groups of 256 or larger when measured over a learning period of 200ms, as can be seen in Figure~\ref{fig:pole_time}
+
 
 \end{flushleft}
+
+\begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.8]{fig08}
+\includegraphics[scale=0.5]{fig08a}
+\caption{Learning quality as a function of learning time for Pole Balancing, without agent differentiation.}
+\label{fig:pole_time}
+\end{figure}
+
 \begin{flushleft}
 
-
-Agent differentiation is beneficial to parallel learning for the Pole Balancing problem, as mentioned before.  The differentiation for each agent is a small random bias added to the $Q$-values shared with each agent. The amount of random bias was determined by experimentation and decreased exponentially over time.  Differentiation dramatically improves the speed of learning for agent groups of 256 or larger.  Figure ??? shows the improvement that occurred during the first 100 ms of learning.  Ultimate quality does not change much because average quality is close to the best possible value of 8,192 and there is no room for improvement.  The final learning quality including the impact of differentiation is shown in Figure ???, clearly showing the success of the parallel approach.
+Agent differentiation is beneficial to parallel learning for the Pole Balancing problem, as mentioned before.  The differentiation for each agent is a small random bias added to the $Q$-values shared with each agent. The amount of random bias was determined by experimentation and decreased exponentially over time.  Differentiation dramatically improves the speed of learning for agent groups of 256 or larger.  Figure~\ref{fig:pole_diff} shows the improvement that occurred during the first 100 ms of learning.  Ultimate quality does not change much because average quality is close to the best possible value of 8,192 and there is no room for improvement.  The final learning quality including the impact of differentiation is shown in Figure~\ref{fig:pole_timediff}, clearly showing the success of the parallel approach.
 
 \end{flushleft}
+
+\begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.8]{fig09}
-\includegraphics[scale=0.8]{fig10}
+\includegraphics[scale=0.5]{fig09a}
+\caption{}
+\label{fig:pole_diff}
+\end{figure}
+
 \begin{flushleft}
 
-In summary, the massively parallel approach produces a dramatic improvement in learning quality as a function of the learning time for the Pole Balancing problem (Figure ???).  This improvement is obtained by using information sharing and agent differentiation with groups of at least 256 parallel agents. 
+\end{flushleft}
+
+\begin{figure}[hbtp]
+\center
+\includegraphics[scale=0.5]{fig10a}
+\caption{}
+\label{fig:pole_timediff}
+\end{figure}
+
+\begin{flushleft}
+
+In summary, the massively parallel approach produces a dramatic improvement in learning quality as a function of the learning time for the Pole Balancing problem (Figure~\ref{fig:pole_timediff}).  This improvement is obtained by using information sharing and agent differentiation with groups of at least 256 parallel agents. 
 
 
 \section{Learning to Play a Game through Self-Play}
