@@ -1,0 +1,57 @@
+\section{Reinforcement Learning}
+
+Reinforcement learning is an area within the machine learning field of artificial intelligence.  The goal of reinforcement learning is to produce agents that can successfully choose optimal actions in a problem domain.  The agent learns by observing its current state, taking an action, and receiving a reward.  Figure 1 illustrates the simple, repetitive process that is used in reinforcement learning.
+
+ 
+Figure 1:Basic reinforcement learning algorithm
+The reward can be positive, negative or zero and the agent’s goal is to learn how to choose actions to maximize the total reward received over time.
+
+\subsection{Temporal Difference Learning}
+The learning approach used here is based on Temporal Difference learning, a model-free approach where the agent does not attempt to build a model of the domain.  Instead, the agent directly learns the present value of future rewards after taking action   from a state  , which is represented by the function  .  With a good estimate of the  -function, the agent can determine the best action from a given state by selecting   which maximizes  .  The  -function defines a policy   that maps states onto the optimal action according to (1), and the value of a state   according to (2).
+	 	(1)
+	 	(2)
+The  -function can be stated in terms of  , the expected reward received when taking action   from state  , the discount rate  , and the expected value of the next state,  .
+	 	(3)
+Equation (3) shows that the  -function can be expressed as the expected value of the reward plus the maximum value of the  -function from the subsequent state.  Whenever an agent takes an action from a state, receives reward and sees the next state, it gets a sample that can be used to improve its estimate of  .  The learning rate parameter,  , is used to control the degree to which the estimates of   are updated according to equation (4), where   is the actual reward received.
+	 	(4)
+Equation (4) is the basic learning equation for one type of Temporal Difference learning sometimes referred to as  -learning.
+
+\subsection{Learning the Value Function}
+Sometimes the agent knows how to determine the next state after taking an action from the current state.  When this is the case the agent can learn the value function   instead of learning  .  The value function defines a policy based on choosing the action that maximizes  , where   is the known next state after taking action  .
+	 	(5)
+	 	(6)
+Now the agent can use its interactions with the environment to learn the value function using equation (7).
+	 	(7)
+Here   is the learning rate and   the discount rate as before.
+
+\subsection{Eligibility Traces}
+When learning the  -function, an agent takes an action   at time   from a state  , receives the reward, and observes the next state.  The new information causes the agent to change its estimation of   using equation (4).  In principle, the change in the estimated value of   could then be retroactively used to update the estimated value for  , the  -value for the state and action that preceded the current one.  Then the additional change in   could be used to update  , etc., propagating the impact of the new information to states and actions further in the past that lead up to the current state.
+
+To see an example of how eligibility traces work, consider the simple world illustrated in Figure 2.  The agent occupies one of 5 states in the world, numbered 1 through 5 and has two available actions: LEFT and RIGHT.  The reward is zero for all states and actions except for action RIGHT from state 5 that gives a reward of +100.  Assume the agent starts with a value of 0 for   for all states and actions.
+ 
+Figure 2: Simple world with 5 states and 2 actions and a single reward.
+
+With normal temporal difference learning the agent will take actions in the world, perhaps randomly at first, and will at some point take the action RIGHT from state 5 and receive the reward of +100.  This will cause the agent to increase the value of   using equation (4).  During further exploration, if the agent happens to take action RIGHT from state 4 it will reach state 5.  Now the application of equation (4) will cause   to increase.  Eventually, in the same way, the value of   will increase when the agent takes action RIGHT from state 3 in the future, and so on until the action RIGHT from every state will have a positive value.
+
+Eligibility traces increase the speed of learning by immediately propagating the change in  to the state and action that preceded it, namely  .  The increase in   is also propagated back to the state and action that preceded it, and so forth.  Eligibility traces provide an increase in learning speed by recording information about the history of states and actions and attributing new information back to those preceding states.
+
+The impact of a change can be attenuated as it moves further into the past by multiplying by a factor  .  This method is called TD({lambda}).  To implement TD({lambda}) we first calculate the amount of change, , and then use that value to update   for  
+	 	(8)
+	 	(9)
+A computational shortcut uses an  -value for each state/action,  .  When an agent takes an action from a state, the value of   is set to 1.0.  Each time step after that, the  -value is decayed by a factor of   according to equation (10).
+	 	(10)
+Then, after calculating   using equation (8), the update rule for all states becomes
+	 	(11)
+
+\subsection{Other Considerations}
+A problem for reinforcement learning in all but the simplest problem domain is the size of the state and action spaces.  Frequently, the size of the state space makes it impossible for the agent to visit all states during the learning process.  The agent must therefore generalize from the portion of the state space it has experienced to estimate the  - or  -functions over the entire domain.  One approach, when the state space is continuous, is to partition the space into a manageable number of cells.  The agent then estimates the function values for each cell. Another approach is to use neural nets to approximate the function of continuous state variables or of an encoding of a high dimensional state.  Each of these approaches is demonstrated in later chapters.
+
+Reinforcement learning can be done in an off-line mode or on-line mode.  Off-line learning means the agent’s rewards received during the learning process do not matter.  The agent’s quality is determined after learning is complete by testing the agent’s optimal policy function and the average reward it will produce.  In on-line learning the agent’s goal is to optimize the reward received while it is learning, a more difficult task.  In this thesis we deal with off-line learning and determine agent quality by pausing the learning process and separately testing the agent’s optimal policy.  Note that sufficiently fast off-line learning methods can be used in an on-line manner by quickly running off-line learning and then selecting the optimal action in the on-line setting.
+
+Reinforcement learning can be applied to a wide variety of problems.  Problem domains for reinforcement learning are classified in a number of ways.  First, problems are classified based on the state information that is available to the agent.  If the agent always sees complete information about the current state of the world the problem the domain is classified as having observable states.  If some information about the current state of the world is hidden from the agent then the problem is called partially observable.  For example, chess is a game with completely observable states, while bridge or poker are domains with partially observable states.  The four problems presented in this thesis have completely observable states.
+
+Another important characteristic of a problem domain is whether the information about the current state that is available to the agent contains all the information that is relevant to predicting the future.  This is referred to as the Markov property and can be stated in probabilistic terms as the future is independent of the past given the present.  All problems in this thesis have the Markov property.  An example of a problem domain that does not have the Markov property is blackjack with a finite deck of cards.  The state may only contain information about the cards currently in play, but the complete history of cards played from the finite deck is relevant to predicting the probabilities of future cards.  Craps is an example of a game that does have the Markov property, as the probabilities in each new game do not depend on prior results.
+
+In general, the agent in a reinforcement learning problem starts with no information about the world it is in, other than the actions it can choose from.  It simply takes an action from the current state and observes the next state that results from that action.  The agent’s only information about how the world works is gathered through its interactions with the problem domain and observing the transitions between states.  This is true for the first three problems in this thesis.  In the last problem, the agent is learning to play a board game through self-play.  The agent does know how the game works.  It is programmed in advance to be able to determine the next state in the game for each of its possible moves from the current state.  It is also programmed with the knowledge of which moves are legal from the current board position.  This approach is common when reinforcement learning is applied to board games.
+
+This brief introduction to reinforcement learning is intended to give a high level view to readers unfamiliar with the topic.  A great source for learning more about reinforcement learning is a textbook by Sutton and Barto (Sutton and Barto, 1998).

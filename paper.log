@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  24 JUL 2011 22:58
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  4 AUG 2011 18:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -613,105 +613,202 @@ Package caption Info: End \AtBeginDocument code.
 [1
 
 {/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<fig01a.png, id=12, 516.93124pt x 580.1675pt>
+\openout2 = `td_learning.aux'.
+
+
+(./td_learning.tex [2
+
+] [3] [4]) [5]
+\openout2 = `simp_discrete.aux'.
+
+ (./simp_discrete.tex
+
+LaTeX Warning: Reference `fig:seq_diag' on page 6 undefined on input line 12.
+
+[6
+
+
+] <fig01a.png, id=27, 516.93124pt x 580.1675pt>
 File: fig01a.png Graphic file (type png)
  <use fig01a.png>
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 89.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 27.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
- [2 <./fig01a.png>]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 27.
+
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 104.
+(amsmath)                 on input line 42.
 
-[3] [4] <fig02a.png, id=28, 711.65875pt x 505.89pt>
+[7 <./fig01a.png>]
+
+LaTeX Warning: Reference `num_pulls' on page 8 undefined on input line 55.
+
+[8]
+
+LaTeX Warning: Reference `fig:bandit_steps' on page 9 undefined on input line 8
+0.
+
+<fig02a.png, id=42, 711.65875pt x 505.89pt>
 File: fig02a.png Graphic file (type png)
- <use fig02a.png> [5 <./fig02a.png>] <fig03a.png, id=33, 618.31pt x 402.50375pt
->
+ <use fig02a.png>
+
+LaTeX Warning: Reference `fig:bandit_time' on page 9 undefined on input line 95
+.
+
+[9] <fig03a.png, id=46, 618.31pt x 402.50375pt>
 File: fig03a.png Graphic file (type png)
  <use fig03a.png>
-<fig05.png, id=34, 433.62pt x 213.9192pt>
-File: fig05.png Graphic file (type png)
- <use fig05.png> [6 <./fig03a.png>]
-<fig06.png, id=39, 236.5638pt x 146.949pt>
-File: fig06.png Graphic file (type png)
- <use fig06.png> [7 <./fig05.png>]
-[8 <./fig06.png>] [9] <fig07a.png, id=52, 718.685pt x 561.09625pt>
-File: fig07a.png Graphic file (type png)
 
-<use fig07a.png> [10] [11 <./fig07a.png>]
-<fig08a.png, id=60, 690.58pt x 495.8525pt>
+LaTeX Warning: Reference `fig:bandit_summary' on page 10 undefined on input lin
+e 113.
+
+
+LaTeX Warning: Reference `fig:bandit_time' on page 10 undefined on input line 1
+13.
+
+[10 <./fig02a.png>] <fig05.png, id=51, 433.62pt x 213.9192pt>
+File: fig05.png Graphic file (type png)
+ <use fig05.png>
+
+LaTeX Warning: Reference `fig:bandit_steps' on page 11 undefined on input line 
+132.
+
+
+LaTeX Warning: Reference `fig:bandit_time' on page 11 undefined on input line 1
+32.
+
+) [11 <./fig03a.png> <./fig05.png>] [12]
+\openout2 = `simp_continuous.aux'.
+
+ (./simp_continuous.tex
+
+LaTeX Warning: Reference `fig:pole_diag' on page 13 undefined on input line 3.
+
+<fig06.png, id=60, 236.5638pt x 146.949pt>
+File: fig06.png Graphic file (type png)
+ <use fig06.png> [13
+
+
+ <./fig06.png>]
+[14] [15]
+
+LaTeX Warning: Reference `fig:pole_steps' on page 16 undefined on input line 66
+.
+
+<fig07a.png, id=72, 718.685pt x 561.09625pt>
+File: fig07a.png Graphic file (type png)
+ <use fig07a.png> [16 <./fig07a.png>]
+
+LaTeX Warning: Reference `fig:pole_time' on page 17 undefined on input line 81.
+
+
+<fig08a.png, id=77, 690.58pt x 495.8525pt>
 File: fig08a.png Graphic file (type png)
  <use fig08a.png>
-<fig09a.png, id=61, 665.48625pt x 463.7325pt>
+
+LaTeX Warning: Reference `fig:pole_diff' on page 17 undefined on input line 95.
+
+
+
+LaTeX Warning: Reference `fig:pole_timediff' on page 17 undefined on input line
+ 95.
+
+<fig09a.png, id=78, 665.48625pt x 463.7325pt>
 File: fig09a.png Graphic file (type png)
- <use fig09a.png>
-<fig10a.png, id=62, 672.5125pt x 451.6875pt>
+ <use fig09a.png> [17 <./fig08a.png>] <fig10a.png, id=83, 672.5125pt x 451.6875
+pt>
 File: fig10a.png Graphic file (type png)
- <use fig10a.png> [12 <./fig08a.png>] [13 <./fig09a.png> <./fig10a.png>]
+ <use fig10a.png>
+
+LaTeX Warning: Reference `fig:pole_timediff' on page 18 undefined on input line
+ 119.
+
+) [18 <./fig09a.png>] [19 <./fig10a.png>]
+\openout2 = `self_play.aux'.
+
+ (./self_play.tex
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 325.
+(amsmath)                 on input line 7.
 
-[14] <fig11.png, id=76, 433.62pt x 320.397pt>
+[20
+
+
+] <fig11.png, id=96, 433.62pt x 320.397pt>
 File: fig11.png Graphic file (type png)
- <use fig11.png> [15 <./fig11.png>] <fig12.png, id=81, 433.1382pt x 328.5876pt>
+ <use fig11.png>
+<fig12.png, id=97, 433.1382pt x 328.5876pt>
 File: fig12.png Graphic file (type png)
  <use fig12.png>
-<fig13.png, id=82, 433.62pt x 319.9152pt>
+<fig13.png, id=98, 433.62pt x 319.9152pt>
 File: fig13.png Graphic file (type png)
- <use fig13.png> [16] [17 <./fig12.png> <./fig13.png>] <fig14.png, id=91, 250.5
-36pt x 333.4056pt>
+ <use fig13.png> [21 <./fig11.png>]
+[22 <./fig12.png> <./fig13.png>] <fig14.png, id=108, 250.536pt x 333.4056pt>
 File: fig14.png Graphic file (type png)
- <use fig14.png>
-<fig15.png, id=92, 360.3864pt x 136.8312pt>
+
+<use fig14.png> <fig15.png, id=109, 360.3864pt x 136.8312pt>
 File: fig15.png Graphic file (type png)
- <use fig15.png> [18 <./fig14.png>]
-<fig16.png, id=97, 433.62pt x 122.859pt>
+ <use fig15.png>
+[23 <./fig14.png>] <fig16.png, id=114, 433.62pt x 122.859pt>
 File: fig16.png Graphic file (type png)
  <use fig16.png>
-<fig17.png, id=98, 433.1382pt x 263.0628pt>
+<fig17.png, id=115, 433.1382pt x 263.0628pt>
 File: fig17.png Graphic file (type png)
- <use fig17.png> [19 <./fig15.png> <./fig16.png>] <fig18.png, id=105, 433.62pt 
+ <use fig17.png> [24 <./fig15.png> <./fig16.png>] <fig18.png, id=121, 433.62pt 
 x 324.7332pt>
 File: fig18.png Graphic file (type png)
  <use fig18.png>
-[20 <./fig17.png>] <fig19.png, id=110, 433.62pt x 425.9112pt>
+[25 <./fig17.png>] <fig19.png, id=127, 433.62pt x 425.9112pt>
 File: fig19.png Graphic file (type png)
  <use fig19.png>
-[21 <./fig18.png>] <fig20.png, id=115, 433.62pt x 295.8252pt>
+[26 <./fig18.png>] <fig20.png, id=132, 433.62pt x 295.8252pt>
 File: fig20.png Graphic file (type png)
  <use fig20.png>
-[22 <./fig19.png>] [23 <./fig20.png>] (./paper.aux) ) 
+[27 <./fig19.png>]) [28 <./fig20.png>]
+\openout2 = `prior_work.aux'.
+
+ (./prior_work.tex [29
+
+
+]) [30] [31]
+(./paper.aux (./td_learning.aux) (./simp_discrete.aux) (./simp_continuous.aux)
+(./self_play.aux) (./prior_work.aux))
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4579 strings out of 493747
- 66309 string characters out of 3143546
- 142008 words of memory out of 3000000
- 7780 multiletter control sequences out of 15000+200000
- 10949 words of font info for 39 fonts, out of 3000000 for 9000
+ 4606 strings out of 493747
+ 66723 string characters out of 3143546
+ 142924 words of memory out of 3000000
+ 7781 multiletter control sequences out of 15000+200000
+ 11257 words of font info for 40 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 44i,10n,43p,1413b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2010/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2010/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2010/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2010/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on paper.pdf (23 pages, 1927095 bytes).
+ 44i,11n,43p,1438b,285s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
+sr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
+ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loc
+al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/
+texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/t
+exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
+xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on paper.pdf (31 pages, 1951377 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
+ 188 PDF objects out of 1000 (max. 8388607)
+ 104 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  96 words of extra memory for PDF output out of 10000 (max. 10000000)
 
