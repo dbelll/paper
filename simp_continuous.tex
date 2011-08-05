@@ -63,13 +63,13 @@ Agent quality was measured for this problem as the average time to failure over 
 
 The first set of results measure the quality of learning as a function of agent-time steps.  This measurement shows the algorithmic penalty, if any, of the parallel approach.  The algorithmic penalty is the reduction in learning quality due to the fact that agents operating in parallel have less information available to them, after a given number of agent-time steps, than a single agent.  The single agent will have complete information about all actions, rewards, and state transitions, while the parallel agent must wait until a sharing point to gain any information from the experiences of the other agents.
 
-The first graph, Figure\ref{fig:pole_steps}, shows results by agent-time step for varying numbers of parallel agents and compares them to a single agent.  In these runs, there was no differentiation of parallel agents after sharing.  The jump in quality as agents shared information is clearly visible in the graph, but only the smaller agent groups, up to 256 parallel agents, could exceed the single agent learning quality after 262,144 agent-time steps.  The 4,096 agent group, did have an anomalous drop in learning quality at its second sharing point at 262,144 total agent-time steps.  The cause for this was not investigated and the learning quality quickly recovers when the number of time steps per agent increases, as can be seen in Figure ???.
+The first graph, Figure\ref{fig:pole_steps}, shows results by agent-time step for varying numbers of parallel agents and compares them to a single agent.  There is a significant parallel penalty on this problem due to the complex state space of this problem. In these runs, there was no differentiation of parallel agents after sharing.  The jump in quality as agents shared information is clearly visible in the graph, but only the smaller agent groups, up to 256 parallel agents, could exceed the single agent learning quality after 262,144 agent-time steps.  The 4,096 agent group, did have an anomalous drop in learning quality at its second sharing point at 262,144 total agent-time steps.  The cause for this was not investigated and the learning quality quickly recovers when the number of time steps per agent increases, as can be seen in Figure~\ref{fig:pole_steps}.
 
 \end{flushleft}
 
 \begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.5]{fig07a}
+\includegraphics[scale=0.35]{fig07a}
 \caption{Learning quality for Pole Balancing as a function of agent-time steps without agent differentiation.}
 \label{fig:pole_steps}
 \end{figure}
@@ -85,35 +85,32 @@ The next measurements tested learning quality as a function of learning time.  A
 
 \begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.5]{fig08a}
+\includegraphics[scale=0.35]{fig08a}
 \caption{Learning quality as a function of learning time for Pole Balancing, without agent differentiation.}
 \label{fig:pole_time}
 \end{figure}
 
-\begin{flushleft}
-
-Agent differentiation is beneficial to parallel learning for the Pole Balancing problem, as mentioned before.  The differentiation for each agent is a small random bias added to the $Q$-values shared with each agent. The amount of random bias was determined by experimentation and decreased exponentially over time.  Differentiation dramatically improves the speed of learning for agent groups of 256 or larger.  Figure~\ref{fig:pole_diff} shows the improvement that occurred during the first 100 ms of learning.  Ultimate quality does not change much because average quality is close to the best possible value of 8,192 and there is no room for improvement.  The final learning quality including the impact of differentiation is shown in Figure~\ref{fig:pole_timediff}, clearly showing the success of the parallel approach.
-
-\end{flushleft}
-
 \begin{figure}[hbtp]
 \center
-\includegraphics[scale=0.5]{fig09a}
-\caption{}
-\label{fig:pole_diff}
-\end{figure}
-
-\begin{flushleft}
-
-\end{flushleft}
-
-\begin{figure}[hbtp]
-\center
-\includegraphics[scale=0.5]{fig10a}
-\caption{}
+\includegraphics[scale=0.35]{fig10a}
+\caption{Learning quality with agent differentiation}
 \label{fig:pole_timediff}
 \end{figure}
 
 \begin{flushleft}
+
+Agent differentiation is beneficial to parallel learning for the Pole Balancing problem, as mentioned before.  The differentiation for each agent is a small random bias added to the $Q$-values shared with each agent. The amount of random bias was determined by experimentation and decreased exponentially over time.  Differentiation dramatically improves the speed of learning for agent groups of 256 or larger.  Comparing Figure~\ref{fig:pole_diff} to Figure~\ref{fig:pole_time} shows how the multi-agent learning improved by differentiating the agents.  Ultimate quality does not change much because average quality is close to the best possible value of 8,192 and there is no room for improvement.  The multi-agent approach with differentiation clearly beats the single agent results on this problem.
+
+%\end{flushleft}
+
+%\begin{figure}[hbtp]
+%\center
+%\includegraphics[scale=0.5]{fig09a}
+%\caption{}
+%\label{fig:pole_diff}
+%\end{figure}
+
+%\begin{flushleft}
+
 
 In summary, the massively parallel approach produces a dramatic improvement in learning quality as a function of the learning time for the Pole Balancing problem (Figure~\ref{fig:pole_timediff}).  This improvement is obtained by using information sharing and agent differentiation with groups of at least 256 parallel agents. 
