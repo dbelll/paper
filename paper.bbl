@@ -1,0 +1,40 @@
+\begin{thebibliography}{1}
+
+\bibitem{Busoniu:2008p4935}
+L~Busoniu and R~Babuska{\ldots}.
+\newblock A comprehensive survey of multiagent reinforcement learning.
+\newblock {\em Systems}, Jan 2008.
+
+\bibitem{Grounds:2008p3736}
+M~Grounds and D~Kudenko.
+\newblock Parallel reinforcement learning with linear function approximation.
+\newblock {\em Adaptive Agents and Multi-Agent Systems III. Adaptation and
+  Multi-Agent Learning}, pages 60--74, 2008.
+
+\bibitem{Kretchmar:2002p3812}
+R~Kretchmar.
+\newblock Parallel reinforcement learning.
+\newblock {\em The 6th World Conference on Systemics}, Jan 2002.
+
+\bibitem{Lagoudakis:2003p4913}
+M.G Lagoudakis and R~Parr.
+\newblock Least-squares policy iteration.
+\newblock {\em The Journal of Machine Learning Research}, 4:1107--1149, 2003.
+
+\bibitem{Palmer:2007p4912}
+V~Palmer.
+\newblock Accelerated approximate reinforcement learning on the gpu.
+\newblock {\em Thesis Chapter}, pages 1--31, Feb 2007.
+
+\bibitem{Sutton:1998p3536}
+R~Sutton and A~Barto.
+\newblock Reinforcement learning: an introduction‎.
+\newblock {\em The MIT Press}, page 322, Jan 1998.
+
+\bibitem{Whiteson:2010p4931}
+S~Whiteson and M~Taylor{\ldots}.
+\newblock Critical factors in the empirical performance of temporal difference
+  and evolutionary methods for reinforcement learning.
+\newblock {\em Autonomous Agents and Multi-Agent {\ldots}}, Jan 2010.
+
+\end{thebibliography}
