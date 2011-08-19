@@ -39,31 +39,8 @@ The basic framework for learning is to have a group of agents learn by playing a
 \begin{flushleft}
 
 
-%\subsection{GPU Implementation Issues}
-%The algorithm used on this problem is very compute intensive.  For each turn, the agent must look at all possible moves and estimate the value of the next board position by using the neural net estimate $V(s)$.  The GPU implementation uses multiple threads per agent to speed up the neural net calculations and to speed up the weight update calculations that are needed each turn.  Each agent has one thread per board square.  The entire group of threads within an agent will be active during some portions of the processing.  Other times, only a single thread or a smaller group of threads is needed for the calculations.  Thread activity for the choose move function is illustrated in Figure ???.  In that diagram, the green arrows represent active threads and dashed arrows are inactive threads.
-%
-%\end{flushleft}
-%\center
-%\includegraphics[scale=0.8]{fig14}
-%\begin{flushleft}
-%
-%
-%Agents can compete against an opponent in parallel too.  The next diagram, Figure ???, illustrates having $n$ agents compete against one opponent at the same time.
-%
-%\end{flushleft}
-%\center
-%\includegraphics[scale=0.8]{fig15}
-%\begin{flushleft}
-%
-%Having each agent compete against multiple opponents simultaneously increases parallelism further.  This approach requires creating multiple copies of the agent’s weights.  Each copy then competes against a different opponent and updates its own weights.  At the end of an episode of learning, the change in weights across all the copies of an agent is accumulated and the master copy is updated in one batch, illustrated in Figure ???.
-%
-%\end{flushleft}
-%\center
-%\includegraphics[scale=0.8]{fig16}
-%\begin{flushleft}
 
-
-The processing on both the CPU and GPU is more complicated on this problem than on previous problems.  The GPU is much slower than the CPU for a single agent, but equals CPU speed with 4 agents and is faster for agent groups of 16 or more, as shown in Figure ~\ref{fig:time_per_million}, which displays the learning time for one million turns.
+ The GPU is much slower than the CPU for a single agent, but equals CPU speed with 4 agents and is faster for agent groups of 16 or more, as shown in Figure ~\ref{fig:time_per_million}, which displays the learning time for one million turns.
 
 \end{flushleft}
 \begin{figure}[hbtp]
@@ -75,7 +52,8 @@ The processing on both the CPU and GPU is more complicated on this problem than 
 
 \begin{flushleft}
 
-
+\subsection{Multiple Use of Parallelism}
+The parallelism on the GPU was used for mulitple purposes on this problem.  For earlier problems one thread was assigned to each agent, allowing them to learn in parallel.  On this problem there we used multiple threads within each agent to speed up the expensive computations associated with neural net activation and updates.  In addition, we used parallelism to have each agent compete against multiple opponents simultaneously.  This approach requires creating multiple copies of the agent’s weights. Each copy then competes against a different opponent and updates its own weights. At the end of an episode of learning, the change in weights across all the copies of an agent is accumulated and the master copy is updated in one batch.  Using many threads within each agent and for simultaneous play by each agent resulted in the use of a smaller number of total agents.
 
 \subsection{Replication with Variation and Summary of Results}
 There is no direct sharing between parallel agents in this problem.  Indirect sharing happens by agents competing against each other and learning.  If one agent’s quality improves, it becomes a better opponent for the other agents and the other agents should improve as a result as well.

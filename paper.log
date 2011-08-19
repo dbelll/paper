@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  19 AUG 2011 08:03
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  19 AUG 2011 17:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -463,27 +463,24 @@ File: fig03a.png Graphic file (type png)
 \openout2 = `simp_continuous.aux'.
 
 
-(./simp_continuous.tex <fig06.png, id=56, 236.5638pt x 146.949pt>
-File: fig06.png Graphic file (type png)
-
-<use fig06.png> [12
+(./simp_continuous.tex [12
 
 
- <./fig06.png>] [13] [14]
-<fig07a.png, id=68, 718.685pt x 561.09625pt>
+] [13] [14]
+<fig07a.png, id=66, 718.685pt x 561.09625pt>
 File: fig07a.png Graphic file (type png)
- <use fig07a.png> [15 <./fig07a.png>] <fig08a.png, id=73, 690.58pt x 495.8525pt
->
+ <use fig07a.png>
+<fig08a.png, id=67, 690.58pt x 495.8525pt>
 File: fig08a.png Graphic file (type png)
  <use fig08a.png>
-<fig10a.png, id=74, 672.5125pt x 451.6875pt>
+<fig10a.png, id=68, 672.5125pt x 451.6875pt>
 File: fig10a.png Graphic file (type png)
  <use fig10a.png>
 
-LaTeX Warning: Reference `fig:pole_diff' on page 16 undefined on input line 102
-.
+LaTeX Warning: Reference `fig:pole_diff' on page 15 undefined on input line 91.
 
-[16 <./fig08a.png> <./fig10a.png>]) [17]
+
+[15 <./fig07a.png>] [16 <./fig08a.png> <./fig10a.png>]) [17]
 \openout2 = `self_play.aux'.
 
  (./self_play.tex
@@ -495,34 +492,34 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 [18
 
 
-] <fig11.png, id=87, 433.62pt x 320.397pt>
+] <fig11.png, id=85, 433.62pt x 320.397pt>
 File: fig11.png Graphic file (type png)
- <use fig11.png> [19 <./fig11.png>] <fig12.png, id=93, 433.1382pt x 328.5876pt>
+ <use fig11.png> [19 <./fig11.png>] <fig12.png, id=91, 433.1382pt x 328.5876pt>
 File: fig12.png Graphic file (type png)
  <use fig12.png>
-<fig13.png, id=94, 433.62pt x 319.9152pt>
+<fig13.png, id=92, 433.62pt x 319.9152pt>
 File: fig13.png Graphic file (type png)
  <use fig13.png>
-<fig17.png, id=95, 433.1382pt x 263.0628pt>
+<fig17.png, id=93, 433.1382pt x 263.0628pt>
 File: fig17.png Graphic file (type png)
- <use fig17.png> [20 <./fig12.png> <./fig13.png>] <fig18.png, id=101, 433.62pt 
-x 324.7332pt>
+ <use fig17.png> [20 <./fig12.png> <./fig13.png>] [21 <./fig17.png>] <fig18.png
+, id=103, 433.62pt x 324.7332pt>
 File: fig18.png Graphic file (type png)
- <use fig18.png>
-<fig19.png, id=102, 433.62pt x 425.9112pt>
+
+<use fig18.png> <fig19.png, id=104, 433.62pt x 425.9112pt>
 File: fig19.png Graphic file (type png)
- <use fig19.png> [21 <./fig17.png>]
-[22 <./fig18.png>] [23 <./fig19.png>]
-<fig20.png, id=115, 433.62pt x 295.8252pt>
+ <use fig19.png>
+<fig20.png, id=105, 433.62pt x 295.8252pt>
 File: fig20.png Graphic file (type png)
- <use fig20.png>) [24 <./fig20.png>]
+ <use fig20.png> [22 <./fig18.png>]
+[23 <./fig19.png>]) [24 <./fig20.png>]
 \openout2 = `prior_work.aux'.
 
+ (./prior_work.tex [25
 
-(./prior_work.tex [25
 
-
-]) [26] [27] (./paper.bbl
+]) [26] [27]
+(./paper.bbl
 
 Package ucs Warning: This text contains LRM/RLM/LRE/RLE characters.
 (ucs)                Note that these are ignored because of incomplete
@@ -542,10 +539,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4932 strings out of 493747
- 73157 string characters out of 3143546
- 156938 words of memory out of 3000000
- 8094 multiletter control sequences out of 15000+200000
+ 4925 strings out of 493747
+ 73058 string characters out of 3143546
+ 156918 words of memory out of 3000000
+ 8088 multiletter control sequences out of 15000+200000
  11257 words of font info for 40 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  44i,11n,43p,1437b,358s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -562,10 +559,10 @@ exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texl
 ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texliv
 e/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on paper.pdf (28 pages, 1478733 bytes).
+Output written on paper.pdf (28 pages, 1457897 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
+ 174 PDF objects out of 1000 (max. 8388607)
  103 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
