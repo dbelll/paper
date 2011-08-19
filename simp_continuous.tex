@@ -1,21 +1,10 @@
 \section{Simple, Continuous Domains}
 \subsection{Overview of the problem}
-The Pole Balancing problem, sometimes referred to as the inverted pendulum, is another canonical problem of reinforcement learning.  The paper “The Pole Balancing Problem, A Benchmark Control Theory Problem” (Brownlee, 2005) contains a detailed description of the standard definition of the problem that was used in this project.  In the Pole Balancing problem, the state consists of a cart on a track with a vertical pole attached to a hinge on the cart.  The goal is to keep the pole balanced within a certain tolerance of the vertical position and to prevent the car from going off either end of the track by applying a fixed force to either end of the car (see Figure~\ref{fig:pole_diag}).  The state of the world consists of four continuous values: the position and velocity of the cart and the angle and angular velocity of the pole.  The agent has no knowledge of how the world works and chooses between two actions: apply the fixed force to the left or to the right.
-
-\end{flushleft}
-
-\begin{figure}[hbtp]
-\center
-\includegraphics[scale=0.5]{fig06}
-\caption{Pole balancing problem}
-\label{fig:pole_diag}
-\end{figure}
-
-\begin{flushleft}
+The Pole Balancing problem, sometimes referred to as the inverted pendulum, is another canonical problem of reinforcement learning.  The paper “The Pole Balancing Problem, A Benchmark Control Theory Problem” (Brownlee, 2005) contains a detailed description of the standard definition of the problem that was used in this project.  In the Pole Balancing problem, the state consists of a cart on a track with a vertical pole attached to a hinge on the cart.  The goal is to keep the pole balanced within a certain tolerance of the vertical position and to prevent the car from going off either end of the track by applying a fixed force to either end of the car.  The state of the world consists of four continuous values: the position and velocity of the cart and the angle and angular velocity of the pole.  The agent has no knowledge of how the world works and chooses between two actions: apply the fixed force to the left or to the right.
 
 A reward is introduced to make this a reinforcement learning problem.  The reward is 0 for every time step that the car is on the track and the pole is in the allowable vertical range.  The agent receives a large negative reward if there is a failure due to the car running off the track, or the pole falling beyond the vertical tolerance.  Each trial begins with the state variables being initialized with random values.
 
-This problem poses a new challenge due to the continuous state variables.  There are a number of ways that continuous variables can be handled.  One approach would be to learn a continuous function, $Q(s,a)$, over the continuous domain of the states.  This approach will be used in Chapter ??? .  For this problem we choose to partition the continuous states into a small number of cells.  The position and angle values are partitioned into 3 value ranges.  The cart velocity and angular velocity of the pole are partitioned into two value ranges, positive and negative.  This creates 36 possible discrete states of for the system.  Given the two possible actions, there are a total of 72 state-action values.  This manageable number of state-action values makes it reasonable to try to learn the $Q(s,a)$ function using TD$(\lambda)$ learning.  In this problem the agent attempts to learn the value of $Q(s,a)$ for each state-action pair using eligibility traces.  Eligibility traces should speed learning on this problem as reaching the failure state is intuitively attributable to many prior actions and not just one bad choice.
+This problem poses a new challenge due to the continuous state variables.  There are a number of ways that continuous variables can be handled.  One approach would be to learn a continuous function, $Q(s,a)$, over the continuous domain of the states.  For this problem we choose to partition the continuous states into a small number of cells.  The position and angle values are partitioned into 3 value ranges.  The cart velocity and angular velocity of the pole are partitioned into two value ranges, positive and negative.  This creates 36 possible discrete states of for the system.  Given the two possible actions, there are a total of 72 state-action values.  This manageable number of state-action values makes it reasonable to try to learn the $Q(s,a)$ function using TD$(\lambda)$ learning.  In this problem the agent attempts to learn the value of $Q(s,a)$ for each state-action pair using eligibility traces.  Eligibility traces should speed learning on this problem as reaching the failure state is intuitively attributable to many prior actions and not just one bad choice.
 
 \subsection{GPU Implementation}
 Temporal difference learning with eligibility traces is a complex algorithm to implement on a GPU.  Each agent must maintain a number of values for each state-action pair: the estimated $Q$-value, the eligibility trace, the weight for the $Q$-value that will be used during sharing, and the random bias amount (discussed in next section).   In addition there are random number seeds and stored values for previous state and action.
@@ -26,7 +15,7 @@ It is more difficult to monitor the learning process as well.  The agent’s qua
 Sharing among agents for this problem is done in a straightforward manner.  After a period of learning, the $Q$-values are averaged over all agents.  The average is done on a weighted basis.  Each agent maintains a weight for each state-action pair.  The weight for agent $i$ is $wgt_i(s,a)$ and it is initialized to a constant value.  During the learning process, the agent weights are updated as follows:
 
 \begin{equation}
-wgt_i(s,a) \gets wgt_i(s,a)+\alpha\epsilon_i(s,a)
+wgt_i(s,a) \gets wgt_i(s,a)+\alpha e_i(s,a)
 \end{equation}
 
 During sharing, an average value for all agents for $Q(s,a)$ is calculated based on the following equation:

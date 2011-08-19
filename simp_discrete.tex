@@ -110,7 +110,6 @@ The next step is to measure learning quality as a function of learning time.  Le
 
 \begin{flushleft}
 
-The last chart, Figure~\ref{fig:bandit_summary}, summarizes the results of the parallel implementation of N-Armed Bandit on the GPU.  The blue bars are the learning quality for 131,072 agent-time steps.  Comparing the multi-agent blue bars to the CPU blue bar shows the improvement due to improved algorithm performance for the fixed number of agent-time steps.  The green bars are the learning quality after 37.7ms, which is the time it took to run 131,072 time steps for a single agent on the CPU.  It can be seen that with 256 or more agents, the advantage of the parallel implementation on the GPU over the single agent CPU run increased when measured as a function of time.  The drop in the fixed agent-time steps bar (blue bar) for 8,192 agents compared smaller agent groups shows that the algorithmic advantage for parallel groups does not continue to increase as group size increases.  This is also seen in Figure~\ref{fig:bandit_time}.
 
 %\end{flushleft}
 %\center
@@ -118,15 +117,5 @@ The last chart, Figure~\ref{fig:bandit_summary}, summarizes the results of the p
 %\begin{flushleft}
 
 
-\end{flushleft}
-
-\begin{figure}[hbtp]
-\center
-\includegraphics[scale=0.5]{fig05}
-\caption{Summary of multi-agent GPU learning compared to single agent, CPU}
-\label{fig:bandit_summary}
-\end{figure}
-
-\begin{flushleft}
 
 In summary, the massively parallel approach to the N-armed Bandit problem shows the surprising result that there is no parallel penalty for agent groups of size 64 or larger (Figure~\ref{fig:bandit_steps}).  Splitting a fixed number of agent-state interactions across parallel agents can actually improve the learning quality through more effective exploration.  The parallel results improved further when learning quality is measured as a function of learning time (Figure~\ref{fig:bandit_time}) as the raw speed improvement provided by the GPU allow more agent-time steps to be executed with greater speed in parallel.
